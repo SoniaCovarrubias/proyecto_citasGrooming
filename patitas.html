@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patitas Mojadas - Agenda tu cita</title>
+
+  <!-- Fuentes y estilos externos -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+
+  <!-- Estilos personalizados -->
+  <style>
+    :root {
+      --rosa-principal: #d81b60;
+      --rosa-claro: #f8bbd0;
+      --rosa-fondo: #fff0f5;
+      --rosa-texto: #ad1457;
+      --rosa-hover: #ec407a;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(to right, #fce4ec, #e3f2fd);
+      scroll-behavior: smooth;
+    }
+
+    .bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
+      filter: brightness(0.6) blur(4px);
+    }
+
+    header {
+      padding: 80px 20px 40px;
+      color: #ffffff;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.6);
+    }
+
+    header h1 {
+      font-family: 'Rubik Mono One', sans-serif;
+      color: #ff4081;
+      font-size: 3.2rem;
+      text-shadow: 1px 1px 3px rgba(255, 64, 129, 0.2);
+    }
+
+    header p {
+      font-family: 'Pacifico', cursive;
+      color: #424242;
+      font-size: 1.5rem;
+    }
+
+    .form-section {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 20px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.1);
+      padding: 40px;
+      margin-top: -30px;
+      margin-bottom: 60px;
+    }
+
+    .form-label {
+      color: var(--rosa-principal);
+      font-family: 'Rubik Mono One', sans-serif;
+      font-weight: 600;
+    }
+
+    .form-control, .form-select, textarea {
+      border: 2px solid var(--rosa-claro);
+      background-color: var(--rosa-fondo);
+      box-shadow: 0 2px 6px rgba(240, 98, 146, 0.15);
+      color: var(--rosa-texto);
+      border-radius: 12px;
+      font-size: 1rem;
+    }
+
+    .form-control:focus, .form-select:focus, textarea:focus {
+      border-color: var(--rosa-hover);
+      box-shadow: 0 0 0 0.25rem rgba(236, 64, 122, 0.25);
+    }
+
+    .btn-success {
+      background: linear-gradient(to right, #ff80ab, #f48fb1);
+      border: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      padding: 12px;
+      color: #fff;
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(to right, #ec407a, #f06292);
+      transform: scale(1.05);
+    }
+
+    .time-slot button {
+      margin: 5px;
+      border-radius: 12px;
+      font-weight: 500;
+      min-width: 100px;
+      background-color: #ffffff;
+      border: 2px solid #90caf9;
+      color: #1976d2;
+      transition: all 0.3s ease;
+    }
+
+    .time-slot button:hover:not(:disabled) {
+      background-color: #90caf9;
+      color: #fff;
+    }
+
+    .time-slot button.active {
+      background-color: #1976d2;
+      color: white;
+      border-color: #1976d2;
+    }
+
+    .floating-logo {
+      animation: float 4s ease-in-out infinite;
+      transition: all 0.4s ease;
+    }
+
+    .floating-logo:hover {
+      transform: translateY(-12px) scale(1.05);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+      @media (max-width: 576px) {
+      header h1 {
+        font-size: 2rem;
+      }
+
+      header p,
+      .lead {
+        font-size: 1rem !important;
+      }
+
+      .form-section {
+        padding: 20px;
+      }
+
+      .btn {
+        width: 100%;
+        font-size: 1rem !important;
+      }
+
+      .carousel-caption h5 {
+        font-size: 1rem;
+      }
+
+      .carousel-caption p {
+        font-size: 0.875rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="d-flex flex-column justify-content-center align-items-center text-center text-white vh-100" style="z-index: 2; position: relative;">
+    <div class="d-flex align-items-center justify-content-center flex-wrap animate__animated animate__fadeInDown">
+      <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/logoPatitas.jpeg" alt="Patitas Mojadas logo" class="floating-logo me-3" style="width: 160px; max-width: 90%; height: auto; margin-bottom: 10px; border: 3px solid #fff; border-radius: 20px; box-shadow: 0 6px 15px rgba(0,0,0,0.3); transition: all 0.4s ease;">
+      <div class="text-start">
+        <h1 style="font-family: 'Pacifico', cursive; font-style: normal; font-size: 2.8rem; color: #ff4081; text-shadow: 2px 2px 5px rgba(255, 64, 129, 0.3); margin: 0;">Patitas Mojadas</h1>
+        <p class="lead" style="font-size: 1.25rem; margin-top: 8px; text-shadow: 1px 1px 3px rgba(0,0,0,0.3);">Spa y cariño para cada patita 🐾</p>
+      </div>
+    </div>
+    <p class="lead" style="font-size: 1.5rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.4);">Tu espacio de confianza para consentir a tu mascota</p>
+    <div class="d-flex flex-wrap justify-content-center gap-3 mt-4">
+  <a href="#formulario" class="btn btn-light px-5 py-3 fw-semibold animate__animated animate__fadeInUp animate__delay-1s scroll-trigger" style="border-radius: 50px; font-size: 1.1rem;">Agendar Cita</a>
+  <a href="#carruselCortes" class="btn btn-outline-light px-5 py-3 fw-semibold animate__animated animate__fadeInUp animate__delay-1s scroll-trigger" style="border-radius: 50px; font-size: 1.1rem; border: 2px solid white;">Ver Cortes</a>
+</div>
+  </section>
+  <div class="bg-video animate__animated animate__fadeIn" style="background-image: url('https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/ChatGPT%20Image%2019%20may%202025%2C%2021_14_20.png');"></div>
+
+  <header>
+    <h1 class="display-4">Patitas Mojadas</h1>
+    <p class="lead">Agenda el baño o corte de tu mascota con un solo clic</p>
+  </header>
+
+  <div id="formulario" class="container form-section animate__animated animate__fadeInUp animate__delay-1s">
+    <h2 class="mb-4">Agendar Cita</h2>
+    <form id="form-cita">
+      <div class="mb-3">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" id="fecha" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Horario</label>
+        <div class="d-flex flex-wrap time-slot" id="horarios"></div>
+      </div>
+      <div class="mb-3">
+        <label for="servicio" class="form-label">Servicio</label>
+        <select id="servicio" class="form-select" required>
+          <option value="">Selecciona...</option>
+          <option>Baño</option>
+          <option>Corte de pelo</option>
+          <option>Baño + Corte</option>
+        </select>
+      </div>
+      <hr>
+      <h5 style="font-family: 'Rubik Mono One', sans-serif; color: #1976d2;">Datos del Cliente</h5>
+      <div class="mb-3">
+        <label for="nombre" class="form-label"><i class="bi bi-person-fill"></i> Nombre completo</label>
+        <input type="text" id="nombre" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="telefono" class="form-label"><i class="bi bi-telephone-fill"></i> Teléfono</label>
+        <input type="tel" id="telefono" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label"><i class="bi bi-envelope-fill"></i> Correo electrónico</label>
+        <input type="email" id="email" class="form-control">
+      </div>
+      <hr>
+      <h5 style="font-family: 'Rubik Mono One', sans-serif; color: #1976d2;">Datos de la Mascota</h5>
+      <div class="mb-3">
+        <label for="nombreMascota" class="form-label"><i class="bi bi-paw-fill"></i> Nombre</label>
+        <input type="text" id="nombreMascota" class="form-control" required>
+      </div>
+      <div class="mb-3">
+        <label for="raza" class="form-label"><i class="bi bi-tags-fill"></i> Raza</label>
+        <input type="text" id="raza" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="tamano" class="form-label"><i class="bi bi-arrows-angle-expand"></i> Tamaño</label>
+        <select id="tamano" class="form-select">
+          <option>Mini</option>
+          <option>Pequeño</option>
+          <option>Mediano</option>
+          <option>Grande</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="comentarios" class="form-label"><i class="bi bi-chat-dots-fill"></i> Comentarios adicionales</label>
+        <textarea id="comentarios" class="form-control" rows="3"></textarea>
+      </div>
+      <button type="submit" class="btn btn-success w-100">Agendar Cita</button>
+    </form>
+    <div id="resumen-cita" class="mt-4 p-3 border rounded bg-light d-none">
+      <h5 class="text-center">🎟️ Tu Cita Reservada</h5>
+      <ul class="list-unstyled mb-0">
+        <li><strong>Fecha:</strong> <span id="resumen-fecha"></span></li>
+        <li><strong>Hora:</strong> <span id="resumen-hora"></span></li>
+        <li><strong>Servicio:</strong> <span id="resumen-servicio"></span></li>
+        <li><strong>Cliente:</strong> <span id="resumen-nombre"></span></li>
+        <li><strong>Mascota:</strong> <span id="resumen-mascota"></span> (<span id="resumen-raza"></span>, <span id="resumen-tamano"></span>)</li>
+      </ul>
+    </div>
+  </div>
+
+<!-- Carrusel de cortes -->
+<div class="container my-5">
+  <h2 class="text-center mb-4" style="color: var(--rosa-principal); font-family: 'Rubik Mono One', sans-serif;">Nuestros Cortes</h2>
+  <div id="carruselCortes" class="carousel slide animate__animated animate__fadeInUp" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-inner text-center">
+      <!-- Aquí se insertan las imágenes -->
+      <div class="carousel-item active">
+        <img src="https://images.unsplash.com/photo-1619983081563-430f63602755" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 1">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte estilo osito</h5>
+          <p>Ideal para razas pequeñas, con un toque tierno y limpio.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 2">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte clásico</h5>
+          <p>Perfecto para mantener el pelaje manejable y elegante.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 3">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte fresco de verano</h5>
+          <p>Ideal para el calor, mantiene a tu mascota cómoda y fresca.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1601758064226-0c3f36e07ac1" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 4">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte elegante</h5>
+          <p>Perfecto para eventos y sesiones de fotos.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1620086309155-45e81c1bd2a1" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 5">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte divertido</h5>
+          <p>Original y lleno de personalidad para tu mascota.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1601758123927-196caa59f3ba" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 6">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte de mantenimiento</h5>
+          <p>Ideal para un look práctico y cuidado diario.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 7">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte con estilo urbano</h5>
+          <p>Para perritos modernos y activos.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://images.unsplash.com/photo-1556526271-9b5dd00356c1" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 8">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte profesional</h5>
+          <p>Hecho por nuestros expertos con cariño y técnica.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carruselCortes" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carruselCortes" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+  </div>
+</div>
+
+<div class="modal fade" id="modalConfirmacion" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">¡Cita agendada!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p>Tu cita fue registrada con éxito. Te esperamos en Patitas Mojadas 🐾</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    let horarioSeleccionado = null;
+
+    function actualizarHorarios() {
+      const fecha = document.getElementById('fecha').value;
+      const horariosContainer = document.getElementById('horarios');
+      horariosContainer.innerHTML = '';
+      const horas = ['10:00 AM', '12:00 PM', '2:00 PM', '4:00 PM'];
+
+      horas.forEach(hora => {
+        const key = `${fecha}-${hora}`;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'btn m-1';
+        btn.textContent = hora;
+
+        if (localStorage.getItem(key)) {
+          btn.disabled = true;
+          btn.classList.add('btn-secondary');
+        } else {
+          btn.classList.add('btn-outline-primary');
+          btn.addEventListener('click', function () {
+            document.querySelectorAll('.time-slot button').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            horarioSeleccionado = hora;
+          });
+        }
+        horariosContainer.appendChild(btn);
+      });
+    }
+
+    document.getElementById('fecha').addEventListener('change', actualizarHorarios);
+
+    document.getElementById('form-cita').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      if (!document.getElementById('fecha').value) {
+        alert('Selecciona una fecha.');
+        return;
+      }
+      if (!horarioSeleccionado) {
+        alert('Selecciona un horario disponible.');
+        return;
+      }
+
+      const fecha = document.getElementById('fecha').value;
+      const key = `${fecha}-${horarioSeleccionado}`;
+      localStorage.setItem(key, 'ocupado');
+
+      const data = {
+        fecha,
+        hora: horarioSeleccionado,
+        servicio: document.getElementById('servicio').value,
+        nombre: document.getElementById('nombre').value,
+        telefono: document.getElementById('telefono').value,
+        email: document.getElementById('email').value,
+        nombreMascota: document.getElementById('nombreMascota').value,
+        raza: document.getElementById('raza').value,
+        tamano: document.getElementById('tamano').value,
+        comentarios: document.getElementById('comentarios').value
+      };
+
+      try {
+        await fetch('TU_URL_WEB_APP', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (error) {
+        console.error('Error al enviar a Google Sheets:', error);
+      }
+
+      document.getElementById('resumen-fecha').innerText = data.fecha;
+      document.getElementById('resumen-hora').innerText = data.hora;
+      document.getElementById('resumen-servicio').innerText = data.servicio;
+      document.getElementById('resumen-nombre').innerText = data.nombre;
+      document.getElementById('resumen-mascota').innerText = data.nombreMascota;
+      document.getElementById('resumen-raza').innerText = data.raza;
+      document.getElementById('resumen-tamano').innerText = data.tamano;
+      document.getElementById('resumen-cita').classList.remove('d-none');
+
+      const confirmModal = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+      confirmModal.show();
+
+      document.getElementById('form-cita').reset();
+      horarioSeleccionado = null;
+      actualizarHorarios();
+    });
+  </script>
+<script>
+  document.querySelectorAll('.scroll-trigger').forEach(link => {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        window.scrollTo({
+          top: target.offsetTop - 20,
+          behavior: 'smooth'
+        });
+      }
+    });
+  });
+</script>
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <h5 class="mb-3" style="font-family: 'Pacifico', cursive; color: var(--rosa-principal);">Síguenos en redes sociales</h5>
+    <div class="d-flex justify-content-center gap-4">
+      <a href="https://www.facebook.com/" target="_blank" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+      <a href="https://wa.me/5210000000000" target="_blank" class="text-white fs-4"><i class="bi bi-whatsapp"></i></a>
+    </div>
+    <p class="mt-3 mb-0">&copy; 2025 Patitas Mojadas. Todos los derechos reservados.</p>
+  </div>
+</footer>
+</body>
+</html>
