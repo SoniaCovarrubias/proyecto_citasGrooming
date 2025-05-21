@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patitas Mojadas - Agenda tu cita</title>
+
+  <!-- Estilos y fuentes -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=Pacifico&family=Rubik+Mono+One&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --rosa-principal: #d81b60;
+      --rosa-hover: #ec407a;
+      --rosa-claro: #f8bbd0;
+      --rosa-fondo: #fff0f5;
+    }
+
+    body {
+      background: linear-gradient(to right, #fce4ec, #e3f2fd);
+      font-family: 'Quicksand', sans-serif;
+    }
+
+    .form-label { font-weight: 600; color: var(--rosa-principal); }
+    .btn-success {
+      background: linear-gradient(to right, #ff80ab, #f48fb1);
+      border: none; font-weight: bold;
+      box-shadow: 0 4px 10px rgba(255, 64, 129, 0.3);
+    }
+
+    #qr-box img { max-width: 200px; }
+    .form-section {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.1);
+    }
+    .floating-logo {
+      animation: float 4s ease-in-out infinite;
+      width: 160px; border-radius: 20px;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
+</head>
+<body>
+
+<header class="text-center py-4">
+  <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/logoPatitas.jpeg" alt="Patitas Mojadas logo" class="floating-logo">
+  <h1 class="mt-3" style="font-family: 'Pacifico', cursive; color: #ff4081;">Patitas Mojadas</h1>
+  <p class="lead">Spa y cariño para cada patita 🐾</p>
+</header>
+
+<div class="container form-section mb-5">
+  <h2 class="text-center mb-4">Agendar Cita</h2>
+  <form id="form-cita">
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label for="nombre" class="form-label">Nombre del cliente</label>
+        <input type="text" id="nombre" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="tel" id="telefono" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="email" class="form-label">Correo electrónico</label>
+        <input type="email" id="email" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="fecha" class="form-label">Fecha</label>
+        <input type="date" id="fecha" class="form-control" required>
+        <div class="mt-3">
+          <label class="form-label">Horario</label>
+          <div class="d-flex flex-wrap gap-2" id="horarios"></div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <label for="servicio" class="form-label">Servicio</label>
+        <select id="servicio" class="form-select" required>
+          <option value="">Selecciona...</option>
+          <option>Baño</option>
+          <option>Corte</option>
+          <option>Baño + Corte</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="nombreMascota" class="form-label">Nombre de la mascota</label>
+        <input type="text" id="nombreMascota" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="raza" class="form-label">Raza</label>
+        <input type="text" id="raza" class="form-control" required>
+      </div>
+      <div class="col-md-6">
+        <label for="tamano" class="form-label">Tamaño</label>
+        <select id="tamano" class="form-select" required>
+          <option value="">Selecciona...</option>
+          <option>Mini</option>
+          <option>Pequeño</option>
+          <option>Mediano</option>
+          <option>Grande</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="entrega" class="form-label">¿Cómo será la entrega?</label>
+        <select id="entrega" class="form-select" required>
+          <option value="">Selecciona...</option>
+          <option value="sucursal">Llevaré a la sucursal</option>
+          <option value="recoleccion">Deseo recolección a domicilio</option>
+        </select>
+      </div>
+      <div class="col-md-6 d-none" id="direccion-box">
+        <label for="direccion" class="form-label">Dirección</label>
+        <input type="text" id="direccion" class="form-control">
+      </div>
+      <div class="col-12">
+        <label for="comentarios" class="form-label">Comentarios adicionales</label>
+        <textarea id="comentarios" class="form-control" rows="3"></textarea>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <button type="submit" class="btn btn-success px-5">Agendar Cita</button>
+    </div>
+      
+  </form>
+
+  <div id="resumen-cita" class="mt-5 d-none">
+    <h4>Resumen de Cita</h4>
+    <ul class="list-unstyled">
+      <li><strong>Cliente:</strong> <span id="resumen-nombre"></span></li>
+      <li><strong>Teléfono:</strong> <span id="resumen-telefono"></span></li>
+      <li><strong>Email:</strong> <span id="resumen-email"></span></li>
+      <li><strong>Fecha:</strong> <span id="resumen-fecha"></span></li>
+      <li><strong>Servicio:</strong> <span id="resumen-servicio"></span></li>
+      <li><strong>Mascota:</strong> <span id="resumen-mascota"></span> (<span id="resumen-raza"></span>, <span id="resumen-tamano"></span>)</li>
+    </ul>
+    <div id="qr-box" class="text-center">
+  <h5 class="mt-3">Código QR de tu cita</h5>
+  <img id="qr-cita" src="" class="img-thumbnail mt-2" alt="Código QR" />
+  <div class="mt-3">
+    <a id="descargar-qr" href="#" download="qr_cita.png" class="btn btn-outline-secondary">Descargar QR</a>
+  </div>
+</div>
+  </div>
+</div>
+
+<footer class="bg-dark text-white text-center py-4 mt-5">
+  <div class="container">
+    <h5 class="mb-3" style="font-family: 'Pacifico', cursive; color: var(--rosa-principal);">Síguenos en redes sociales</h5>
+    <div class="d-flex justify-content-center gap-4">
+      <a href="https://www.facebook.com/" target="_blank" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+      <a href="https://www.instagram.com/" target="_blank" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+      <a href="https://wa.me/5210000000000" target="_blank" class="text-white fs-4"><i class="bi bi-whatsapp"></i></a>
+    </div>
+    <p class="mt-3 mb-0">&copy; 2025 Patitas Mojadas. Todos los derechos reservados.</p>
+  </div>
+</footer>
+
+<!-- Carrusel de cortes -->
+<div class="container my-5">
+  <h2 class="text-center mb-4" style="color: var(--rosa-principal); font-family: 'Rubik Mono One', sans-serif;">Nuestros Cortes</h2>
+  <div id="carruselCortes" class="carousel slide animate__animated animate__fadeInUp" data-bs-ride="carousel" data-bs-interval="4000">
+    <div class="carousel-inner text-center">
+      <div class="carousel-item active">
+        <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/perrito1.jpeg" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 1">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte estilo osito</h5>
+          <p>Ideal para razas pequeñas, con un toque tierno y limpio.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/perrito2.jpeg" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 2">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte clásico</h5>
+          <p>Perfecto para mantener el pelaje manejable y elegante.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/perrito3.jpeg" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 3">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte fresco de verano</h5>
+          <p>Ideal para el calor, mantiene a tu mascota cómoda y fresca.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/perrito4.jpeg" class="img-fluid rounded mx-auto d-block" style="max-height: 300px; object-fit: cover;" alt="Corte 4">
+        <div class="carousel-caption d-none d-md-block bg-dark bg-opacity-50 rounded p-2">
+          <h5>Corte elegante</h5>
+          <p>Perfecto para eventos y sesiones de fotos.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carruselCortes" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Anterior</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carruselCortes" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Siguiente</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const entrega = document.getElementById('entrega');
+    entrega.addEventListener('change', function () {
+      const box = document.getElementById('direccion-box');
+      const input = document.getElementById('direccion');
+      if (this.value === 'recoleccion') {
+        box.classList.remove('d-none');
+        input.setAttribute('required', 'required');
+      } else {
+        box.classList.add('d-none');
+        input.removeAttribute('required');
+      }
+    });
+
+    document.getElementById('form-cita').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value;
+      const telefono = document.getElementById('telefono').value;
+      const email = document.getElementById('email').value;
+      const fecha = document.getElementById('fecha').value;
+      const servicio = document.getElementById('servicio').value;
+      const nombreMascota = document.getElementById('nombreMascota').value;
+      const raza = document.getElementById('raza').value;
+      const tamano = document.getElementById('tamano').value;
+      const tipoEntrega = document.getElementById('entrega').value;
+      const direccion = tipoEntrega === 'recoleccion' ? document.getElementById('direccion').value : 'Sucursal';
+      const comentarios = document.getElementById('comentarios').value;
+      if (!horarioSeleccionado) {
+        alert('Selecciona un horario disponible.');
+        return;
+      }
+      const key = `${fecha}-${horarioSeleccionado}`;
+      localStorage.setItem(key, 'ocupado');
+
+      if (!nombre || !telefono || !email || !fecha || !servicio || !nombreMascota || !raza || !tamano || !tipoEntrega || (tipoEntrega === 'recoleccion' && !direccion)) {
+        alert('Por favor completa todos los campos obligatorios');
+        return;
+      }
+
+      document.getElementById('resumen-nombre').innerText = nombre;
+      document.getElementById('resumen-telefono').innerText = telefono;
+      document.getElementById('resumen-email').innerText = email;
+      document.getElementById('resumen-fecha').innerText = `${fecha} - ${horarioSeleccionado}`;
+      document.getElementById('resumen-servicio').innerText = servicio;
+      document.getElementById('resumen-mascota').innerText = nombreMascota;
+      document.getElementById('resumen-raza').innerText = raza;
+      document.getElementById('resumen-tamano').innerText = tamano;
+
+      const textoQR = `Cita: ${nombreMascota} (${raza}, ${tamano}) - Cliente: ${nombre} - ${telefono} - Fecha: ${fecha} - ${horarioSeleccionado} - Servicio: ${servicio} - Entrega: ${direccion}`;
+      const urlQR = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(textoQR)}&size=200x200`;
+      document.getElementById('qr-cita').src = urlQR;
+      document.getElementById('descargar-qr').href = urlQR;
+      document.getElementById('resumen-cita').classList.remove('d-none');
+      const modal = new bootstrap.Modal(document.getElementById('modalConfirmacion'));
+      modal.show();
+    });
+  });
+  const horariosContainer = document.getElementById('horarios');
+  const fechaInput = document.getElementById('fecha');
+  let horarioSeleccionado = null;
+
+  function generarHorarios() {
+    const fecha = fechaInput.value;
+    horariosContainer.innerHTML = '';
+    const horas = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM'];
+
+    horas.forEach(hora => {
+      const key = `${fecha}-${hora}`;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'btn btn-outline-primary';
+      btn.textContent = hora;
+
+      if (localStorage.getItem(key)) {
+        btn.disabled = true;
+        btn.classList.add('btn-secondary');
+      } else {
+        btn.addEventListener('click', function () {
+          document.querySelectorAll('#horarios button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          horarioSeleccionado = hora;
+        });
+      }
+      horariosContainer.appendChild(btn);
+    });
+  }
+
+  fechaInput.addEventListener('change', generarHorarios);
+  // Scroll suave en anclas
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        window.scrollTo({ top: target.offsetTop - 20, behavior: 'smooth' });
+      }
+    });
+  });
+</script>
+
+<!-- Modal de confirmación -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmacionLabel">¡Cita agendada exitosamente!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tu cita ha sido registrada correctamente. 🐾</p>
+        <p><strong>Por favor toma una captura de pantalla del código QR</strong> que se muestra en el resumen para presentarlo el día de tu cita.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
