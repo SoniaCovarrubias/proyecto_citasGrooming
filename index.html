@@ -406,7 +406,24 @@
   });
 </script>
 <!-- Scripts y lógica unificada Fin -->
-
+<!-- Modal de confirmación -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmacionLabel">¡Cita agendada exitosamente!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tu cita ha sido registrada correctamente. 🐾</p>
+        <p><strong>Por favor toma una captura de pantalla del código QR</strong> que se muestra en el resumen para presentarlo el día de tu cita.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Footer -->
 <footer class="bg-dark text-white text-center py-4 mt-5">
   <div class="container">
