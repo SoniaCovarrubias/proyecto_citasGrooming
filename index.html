@@ -356,7 +356,7 @@
       citas.push({ nombre, nombreMascota });
       localStorage.setItem(key, JSON.stringify(citas));
 
-      const textoQR = `Cita: ${limpiarTexto(nombreMascota)} - Cliente: ${limpiarTexto(nombre)} - Fecha: ${fecha} - Servicio: ${limpiarTexto(servicio)}`;
+      const textoQR = `Cita ${limpiarTexto(nombreMascota)} - Cliente ${limpiarTexto(nombre)} - Fecha ${fecha} - Servicio ${limpiarTexto(servicio)}`;
       const urlQR = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(textoQR)}&size=100x100`;
       console.log("El texto", textoQR);
       console.log("El texto codificado", urlQR);
