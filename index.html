@@ -359,6 +359,7 @@
       const textoQR = `Cita: ${limpiarTexto(nombreMascota)} - Cliente: ${limpiarTexto(nombre)} - Fecha: ${fecha} - Servicio: ${limpiarTexto(servicio)}`;
       const urlQR = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(textoQR)}&size=100x100`;
       console.log("El texto", textoQR);
+      console.log("El texto codificado", urlQR);
       
       document.getElementById('qr-cita').src = urlQR;
       document.getElementById('descargar-qr').href = urlQR;
@@ -378,7 +379,7 @@
         console.error("El modal 'modalConfirmacion' no está presente en el DOM.");
       }
 
-      fetch('https://script.google.com/macros/s/AKfycbx9GabRpbSM5UAS-NnQFL0uUKPxN4Uuj6tAJcmW74MdI_rbJINJ4E731KnYz5hGNdU1/exe', {
+      fetch('https://script.google.com/macros/s/AKfycbx9GabRpbSM5UAS-NnQFL0uUKPxN4Uuj6tAJcmW74MdI_rbJINJ4E731KnYz5hGNdU1/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
