@@ -62,20 +62,18 @@
       </ul>
       <div class="ratio ratio-16x9 rounded shadow-sm">
         <video controls class="w-100 rounded">
-          <source src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/grooming2.mp4" type="video/mp4">
+           <!--<source src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/grooming2.mp4" type="video/mp4"> -->
           Tu navegador no soporta la reproducción de video.
         </video>
       </div>
 
     </div>
-
     <!-- Sección central: Logo y título -->
     <div class="col-md-4 text-center mb-4">
       <img src="https://raw.githubusercontent.com/SoniaCovarrubias/proyecto_citasGrooming/main/logoPatitas.jpeg" alt="Patitas Mojadas logo" class="floating-logo">
       <h1 class="mt-3" style="font-family: 'Pacifico', cursive; color: #ff4081;">Patitas Mojadas</h1>
       <p class="lead">Spa y cariño para cada patita 🐾</p>
     </div>
-
     <!-- Sección derecha: Carrusel -->
     <div class="col-md-4">
       <h3 class="text-center mb-4" style="color: var(--rosa-principal); font-family: 'Rubik Mono One', sans-serif;">Nuestros Clientes</h3>
@@ -136,7 +134,6 @@
     </div>
   </div>
 </header>
-
 <div class="container form-section mb-5">
   <h2 class="text-center mb-4">Agendar Cita</h2>
   <form id="form-cita">
@@ -223,9 +220,25 @@
     </div>
   </div>
 </div>
-
+<!-- Modal -->
+<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalConfirmacionLabel">¡Cita agendada exitosamente!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p>Tu cita ha sido registrada correctamente. 🐾</p>
+        <p><strong>Por favor toma una captura de pantalla del código QR</strong> que se muestra en el resumen para presentarlo el día de tu cita.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Scripts y lógica unificada Inicio -->
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function () {
@@ -355,10 +368,10 @@
 
       citas.push({ nombre, nombreMascota });
       localStorage.setItem(key, JSON.stringify(citas));
-
+      
       const textoQR = `Cita ${limpiarTexto(nombreMascota)} - Cliente ${limpiarTexto(nombre)} - Fecha ${fecha} - Servicio ${limpiarTexto(servicio)}`;
       const urlQR = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(textoQR)}&size=100x100`;
-      
+      // Mostrar resumen
       document.getElementById('qr-cita').src = urlQR;
       document.getElementById('descargar-qr').href = urlQR;
       document.getElementById('resumen-nombre').innerText = nombre;
@@ -369,6 +382,8 @@
       document.getElementById('resumen-servicio').innerText = servicio;
       document.getElementById('resumen-cita').classList.remove('d-none');
 
+      
+
       const modalEl = document.getElementById('modalConfirmacion');
       if (modalEl) {
         const modal = new bootstrap.Modal(modalEl);
@@ -377,7 +392,7 @@
         console.error("El modal 'modalConfirmacion' no está presente en el DOM.");
       }
 
-      fetch('https://script.google.com/macros/s/AKfycbwA7SPDJ2s_RNTDKESReFNTGJHI_CmSRbrRAI2cH85JilX4eSIKoJio28G_j4eRN3E/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbzmU8yttFEQoBI19w2vz04wmgVWKsrf6tAhlXBE2_Aflr8aWDI20kY0DxY6YgD0sgnZ/exec', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -406,24 +421,6 @@
   });
 </script>
 <!-- Scripts y lógica unificada Fin -->
-<!-- Modal de confirmación -->
-<div class="modal fade" id="modalConfirmacion" tabindex="-1" aria-labelledby="modalConfirmacionLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="modalConfirmacionLabel">¡Cita agendada exitosamente!</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <p>Tu cita ha sido registrada correctamente. 🐾</p>
-        <p><strong>Por favor toma una captura de pantalla del código QR</strong> que se muestra en el resumen para presentarlo el día de tu cita.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Entendido</button>
-      </div>
-    </div>
-  </div>
-</div>
 <!-- Footer -->
 <footer class="bg-dark text-white text-center py-4 mt-5">
   <div class="container">
